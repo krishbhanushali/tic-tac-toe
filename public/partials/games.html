@@ -1,0 +1,7 @@
+<a href="/"> < Home </a>
+<h1 class="em2 white">All games</h1>
+<div class="col-sm-12">
+	<div ng-repeat="game in games">
+		<button class="btn btn-primary" ng-click="goToExistingGame(game.id,game.player)">Game ID :{{game.id}}</button>
+	</div>
+</div>
