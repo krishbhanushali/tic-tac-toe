@@ -31,12 +31,15 @@ angular.module('gameApp', ['ngRoute', 'firebase'])
     .controller('GameController', ['$routeParams','$location','$scope','$interpolate','$firebaseObject',function($routeParams, $location,$scope,$interpolate,$firebaseObject){
         this.player = $routeParams.player
         this.id = $routeParams.id
-        
+        $scope.chatBox = false;
         // Error Checking
         
-
+        $scope.messengerIcon = true;
+        $scope.message = "";
+        console.log($scope.message);
         // Fetch our game from Firebase
         $scope.board = {};
+        $scope.allMessages = [];
         $scope.game = firebase.database().ref("games").child("game"+this.id);
         $scope.player = $routeParams.player;
         //sync for winner
@@ -44,57 +47,87 @@ angular.module('gameApp', ['ngRoute', 'firebase'])
         let syncObject = $firebaseObject(winnerRef);
         syncObject.$bindTo($scope,"winner");
 
-        //sync for turn
-        /*let turnRef = firebase.database().ref("games").child("game"+this.id+"/turn");
-        let syncObjectForTurn = $firebaseObject(turnRef);
-        syncObjectForTurn.$bindTo($scope,"turn");*/
+        let conversationRef = firebase.database().ref("games/game"+this.id).child("conversation");
+        let syncObjectForConversation = $firebaseObject(conversationRef);
+        syncObjectForConversation.$bindTo($scope,"conversation");
         
         let ref = firebase.database().ref("games").child("game"+this.id+"/turn");
         $scope.turn = $firebaseObject(ref);
+
+        //for conversations
         // Displaying your board
         $scope.game.on("value",snapshot=>{
             $scope.board = snapshot.val().board;
+
             if($scope.board.zerozero!="" && $scope.board.zeroone!="" && $scope.board.zerotwo!="" &&
                 $scope.board.onezero!="" && $scope.board.oneone!="" && $scope.board.onetwo!="" &&
                 $scope.board.twozero!="" && $scope.board.twoone!="" && $scope.board.twotwo!=""){
-                winnerRef.set('draw');
+
+                if($scope.board.zerozero=="X" && $scope.board.zeroone=="X" && $scope.board.zerotwo=="X" ||
+                    $scope.board.onezero=="X" && $scope.board.oneone=="X" && $scope.board.onetwo=="X" ||
+                    $scope.board.twozero=="X" && $scope.board.twoone=="X" && $scope.board.twotwo=="X"){
+                    winnerRef.set('X');
+                }
+                else if($scope.board.zerozero=="X" && $scope.board.onezero=="X" && $scope.board.twozero=="X" ||
+                    $scope.board.zeroone=="X" && $scope.board.oneone=="X" && $scope.board.twoone=="X" ||
+                    $scope.board.zerotwo=="X" && $scope.board.onetwo=="X" && $scope.board.twotwo=="X"){
+                    winnerRef.set('X');
+                }
+                else if($scope.board.zerozero=="X" && $scope.board.oneone=="X" && $scope.board.twotwo=="X" ||
+                    $scope.board.zerotwo=="X" && $scope.board.oneone=="X" && $scope.board.twozero=="X"){
+                    winnerRef.set('X');
+                }
+
+                else if($scope.board.zerozero=="O" && $scope.board.zeroone=="O" && $scope.board.zerotwo=="O" ||
+                    $scope.board.onezero=="O" && $scope.board.oneone=="O" && $scope.board.onetwo=="O" ||
+                    $scope.board.twozero=="O" && $scope.board.twoone=="O" && $scope.board.twotwo=="O"){
+                    winnerRef.set('O');
+                }
+                else if($scope.board.zerozero=="O" && $scope.board.onezero=="O" && $scope.board.twozero=="O" ||
+                    $scope.board.zeroone=="O" && $scope.board.oneone=="O" && $scope.board.twoone=="O" ||
+                    $scope.board.zerotwo=="O" && $scope.board.onetwo=="O" && $scope.board.twotwo=="O"){
+                    winnerRef.set('O');
+                }
+                else if($scope.board.zerozero=="O" && $scope.board.oneone=="O" && $scope.board.twotwo=="O" ||
+                    $scope.board.zerotwo=="O" && $scope.board.oneone=="O" && $scope.board.twozero=="O"){
+                    winnerRef.set('O');
+                }
+                else
+                    winnerRef.set('draw');
             }
             $scope.$evalAsync();
         });
-
         $scope.game.on("child_changed",snap=>{
             $scope.board = snap.val();
-
             if($scope.board.zerozero=="X" && $scope.board.zeroone=="X" && $scope.board.zerotwo=="X" ||
                 $scope.board.onezero=="X" && $scope.board.oneone=="X" && $scope.board.onetwo=="X" ||
                 $scope.board.twozero=="X" && $scope.board.twoone=="X" && $scope.board.twotwo=="X"){
                 winnerRef.set('X');
             }
-            if($scope.board.zerozero=="X" && $scope.board.onezero=="X" && $scope.board.twozero=="X" ||
+            else if($scope.board.zerozero=="X" && $scope.board.onezero=="X" && $scope.board.twozero=="X" ||
                 $scope.board.zeroone=="X" && $scope.board.oneone=="X" && $scope.board.twoone=="X" ||
                 $scope.board.zerotwo=="X" && $scope.board.onetwo=="X" && $scope.board.twotwo=="X"){
                 winnerRef.set('X');
             }
-            if($scope.board.zerozero=="X" && $scope.board.oneone=="X" && $scope.board.twotwo=="X" ||
+            else if($scope.board.zerozero=="X" && $scope.board.oneone=="X" && $scope.board.twotwo=="X" ||
                 $scope.board.zerotwo=="X" && $scope.board.oneone=="X" && $scope.board.twozero=="X"){
                 winnerRef.set('X');
             }
 
-            if($scope.board.zerozero=="O" && $scope.board.zeroone=="O" && $scope.board.zerotwo=="O" ||
+            else if($scope.board.zerozero=="O" && $scope.board.zeroone=="O" && $scope.board.zerotwo=="O" ||
                 $scope.board.onezero=="O" && $scope.board.oneone=="O" && $scope.board.onetwo=="O" ||
                 $scope.board.twozero=="O" && $scope.board.twoone=="O" && $scope.board.twotwo=="O"){
                 winnerRef.set('O');
             }
-            if($scope.board.zerozero=="O" && $scope.board.onezero=="O" && $scope.board.twozero=="O" ||
+            else if($scope.board.zerozero=="O" && $scope.board.onezero=="O" && $scope.board.twozero=="O" ||
                 $scope.board.zeroone=="O" && $scope.board.oneone=="O" && $scope.board.twoone=="O" ||
                 $scope.board.zerotwo=="O" && $scope.board.onetwo=="O" && $scope.board.twotwo=="O"){
                 winnerRef.set('O');
             }
-            if($scope.board.zerozero=="O" && $scope.board.oneone=="O" && $scope.board.twotwo=="O" ||
+            else if($scope.board.zerozero=="O" && $scope.board.oneone=="O" && $scope.board.twotwo=="O" ||
                 $scope.board.zerotwo=="O" && $scope.board.oneone=="O" && $scope.board.twozero=="O"){
                 winnerRef.set('O');
             }
-
         })
 
         // Displaythe current state of the game
@@ -120,11 +153,26 @@ angular.module('gameApp', ['ngRoute', 'firebase'])
                 turnRef.set('X');
             }
         }
-        $scope.redirectToHome = function(){
-            $location.path("/");
+        
+        $scope.sendMessage = function(message,player){
+            const messageObj = new Object();
+            if(message!='')
+                messageObj.message=message;messageObj.player=player;
+            var key = conversationRef.push().key;
+        
+            var updates = {};
+        
+            updates[''+key] = messageObj;
+            conversationRef.update(updates);
+            $scope.message = '';
+        }
+        $scope.toggleChatBox = function(){
+            $scope.chatBox = !$scope.chatBox;
         }
     }])
     .controller('MainController',['$scope', '$firebaseAuth', '$firebaseArray','$firebaseObject','$interpolate','$location',function ($scope, $firebaseAuth,$firebaseArray,$firebaseObject,$interpolate,$location){
+        
+        $scope.messengerIcon = false;
         let auth = $firebaseAuth()
         let gamesRef = firebase.database().ref("games");
 
@@ -134,7 +182,7 @@ angular.module('gameApp', ['ngRoute', 'firebase'])
             $scope.allGames = $firebaseArray(gamesRef);
             $scope.player = 'X';
             let rand = Math.floor(Math.random()*50000)+1;
-            var game = {id:rand,turn:$scope.player,player1:$scope.player,player2:"",board:{zerozero:'',zeroone:'',zerotwo:'',onezero:'',oneone:'',onetwo:'',twozero:'',twoone:'',twotwo:''},winner:''};
+            var game = {id:rand,turn:$scope.player,player1:$scope.player,player2:"",board:{zerozero:'',zeroone:'',zerotwo:'',onezero:'',oneone:'',onetwo:'',twozero:'',twoone:'',twotwo:''},conversation:'',winner:''};
 
             var newGameRef = gamesRef.child('game'+rand).set(game);
             $scope.id = rand;

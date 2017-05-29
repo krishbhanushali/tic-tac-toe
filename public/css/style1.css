@@ -1,8 +1,18 @@
+
+
 .btn{																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																				
 	line-height: 40px !important;
 	width: 100% !important;
+	margin-top: 10px;
 }
 
+.chat-body{
+	height: 74%;
+	width: 90%;
+	border:2px solid #fff;
+	margin-top: 5px;
+	overflow-y: auto;
+}
 .btn-primary{
 	background-color: #f6f6f6 !important;
 	color:#545454 !important;
@@ -13,6 +23,9 @@
 	border:1px solid #fff !important;
 }
 
+.send-button{
+	display: table-cell !important;
+}
 .btn-primary:hover {
 	background-color: #545454 !important;
 	color:#f6f6f6 !important;
@@ -21,7 +34,13 @@
 	letter-spacing: 0.4em;
 	font-size: 17px;	
 }
-
+.footer-chatbox{
+	position: absolute;
+	bottom: 0px;
+	background-color: #fff;
+	width: 100%;
+	height: 120px;
+}
 .em4{
 	letter-spacing: 0.4em;
 }
@@ -30,6 +49,12 @@
 }
 .white{
 	color:#fff;
+}
+
+footer{
+	padding-top: 40px;
+	text-align: right;
+	opacity: 0.4;
 }
 p{
 	letter-spacing: 0.2em;
@@ -40,7 +65,8 @@ p{
 	text-decoration: none;
 	font-weight: 400;
 	letter-spacing: 0.1em;
-	font-size: 16px;
+	font-size: 36px;
+	margin-top:20px;
 }
 
 .breadcrumb1:hover{
@@ -48,14 +74,17 @@ p{
 	text-decoration: none;
 	font-weight: 400;
 	letter-spacing: 0.1em;
-	font-size: 16px;	
+	font-size: 36px;
+	margin-top:20px;
 }
-
-
 @media screen and (max-height: 700px){
 	.grid{
 		height: 350px;
 		width: 100%;
+	}
+	.title{
+		padding:0px;
+		font-size:16px;
 	}
 }
 
@@ -64,6 +93,10 @@ p{
 		height: 500px;
 		width: 100%;
 	}
+	.title{
+		padding: 0px;
+		font-size: 20px;
+	}
 }
 
 @media screen and (min-height:800px){
@@ -71,6 +104,11 @@ p{
 		width: 100%;
 		height: 600px;
 	}
+	.title{
+		padding:0px;
+		font-size: 36px;
+	}
+	
 }
 
 @media screen and (max-width: 400px){
@@ -79,6 +117,30 @@ p{
 		font-size: 40px;
 		padding: 30px;
 		color:#fff;
+	}
+	.modal-for-message{
+		
+		
+		margin-right: 2%;
+	    border-radius: 4px;
+		height: 75% !important;
+		position: fixed !important;
+		z-index: 13;
+		background-color: #e5e5e5;
+		overflow-x: hidden;
+		padding: 0px;
+		transition: all 1s ease;
+		-webkit-transition: all 1s ease;
+        -moz-transition: all 1s ease;
+        opacity: 1.0;
+	}
+	.chattextfield{
+		position: relative;
+		
+		right: 12px;
+		width: 100%;
+		font-size: 16px;
+		border:none;
 	}
 }
 
@@ -89,6 +151,29 @@ p{
 		padding: 30px;
 		color:#fff;
 	}
+	.modal-for-message{
+		
+		
+		margin-right: 2%;
+	    border-radius: 4px;
+		height: 78% !important;
+		position: fixed !important;
+		z-index: 13;
+		background-color: #e5e5e5;
+		overflow-x: hidden;
+		padding: 0px;
+		transition: all 1s ease;
+		-webkit-transition: all 1s ease;
+        -moz-transition: all 1s ease;
+	}
+	.chattextfield{
+		position: relative;
+		
+		right: 12px;
+		width: 100%;
+		font-size: 16px;
+		border:none;
+	}
 }
 
 @media screen and (min-width:729px) and (max-width: 1024px){
@@ -98,6 +183,25 @@ p{
 		padding: 30px;
 		color:#fff;
 	}
+	.modal-for-message{
+	    border-radius: 4px;
+		height: 75% !important;
+		position: fixed !important;
+		z-index: 13;
+		background-color: #e5e5e5;
+		overflow-x: hidden;
+		padding: 0px;
+		transition: all 1s ease;
+		-webkit-transition: all 1s ease;
+        -moz-transition: all 1s ease;
+        opacity: 1.0;
+	}
+	.chattextfield{
+		position: relative;
+		right: 12px;
+		width: 100%;
+		border:none;
+	}
 }
 
 @media screen and (min-width:1025px){
@@ -106,5 +210,24 @@ p{
 		font-size: 100px;
 		padding: 30px;
 		color:#fff;
+	}
+	.modal-for-message{
+	    border-radius: 4px;
+		height: 75% !important;
+		position: fixed !important;
+		z-index: 13;
+		background-color: #e5e5e5;
+		overflow-x: hidden;
+		padding: 0px;
+		transition: all 1s ease;
+		-webkit-transition: all 1s ease;
+        -moz-transition: all 1s ease;
+	}
+	.chattextfield{
+		position: relative;
+		right: 12px;
+		width: 100%;
+		font-size: 16px;
+		border:none;
 	}
 }
